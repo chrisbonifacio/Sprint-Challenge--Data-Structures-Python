@@ -21,6 +21,17 @@ class LinkedList:
         # reference to the head of the list
         self.head = None
 
+    def __str__(self):
+        current = self.head
+
+        values = []
+
+        while current:
+            values.append(current.get_value())
+            current = current.get_next()
+
+        return f"{values}"
+
     def add_to_head(self, value):
         node = Node(value)
         if self.head is not None:
@@ -45,13 +56,34 @@ class LinkedList:
 
     def reverse_list(self):
         # TO BE COMPLETED
-
-        if self
         prev = None
-        current = self.head
-        while current:
-            next = current.next
-            current.next = prev
-            prev = current
-            current = next
+        curr = self.head
+        nex = None
+
+        while curr:
+            # Before changing next of current,
+            # store next node
+            nex = curr.get_next()  # next = curr -> next
+
+            # Now change next of current
+            # This is where actual reversing happens
+            curr.next_node = prev  # curr -> next = prev
+
+            # Move prev and curr one step forward
+            prev = curr
+            curr = nex
+
         self.head = prev
+
+        return self
+
+
+linked_list = LinkedList()
+
+linked_list.add_to_head('a')
+linked_list.add_to_head('b')
+linked_list.add_to_head('c')
+linked_list.add_to_head('d')
+print(linked_list)
+linked_list.reverse_list()
+print(linked_list)
