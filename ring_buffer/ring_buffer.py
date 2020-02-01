@@ -13,11 +13,13 @@ class RingBuffer:
             self.storage.add_to_tail(item)
             self.current = self.storage.tail
 
-        if self.storage.length == self.capacity:
-            self.storage.head = self.current
-            print("CURRENT HEAD:", self.current.value)
+        # if at capacity, connect storage head to tail
+        if self.storage.length >= self.capacity:
+            if self.current is self.storage.tail:
+                self.storage.tail.next = self.storage.head
+
             self.current.value = item
-            print("NEW HEAD:", self.current.value)
+            self.current = self.current.next
 
     def get(self):
         # Note:  This is the only [] allowed
@@ -27,10 +29,12 @@ class RingBuffer:
         current = self.storage.head
 
         while current:
-            list_buffer_contents.append(current.value)
+            list_buffer_contents.append(current)
             current = current.next
+            if current is self.storage.head:
+                break
 
-        return list_buffer_contents
+        return [item.value for item in list_buffer_contents]
 
 # ----------------Stretch Goal-------------------
 
